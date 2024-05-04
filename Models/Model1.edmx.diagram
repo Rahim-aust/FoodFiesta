@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="5ea247de5f2e4d09bfe4fcf18b7893c4" Name="Diagram1">
+        <EntityTypeShape EntityType="FoodFiestaModel.Branch" Width="1.5" PointX="0.75" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="FoodFiestaModel.Food" Width="1.5" PointX="5.25" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="FoodFiestaModel.FoodElement" Width="1.5" PointX="10.25" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="FoodFiestaModel.Ingredient" Width="1.5" PointX="6" PointY="11.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="FoodFiestaModel.Order" Width="1.5" PointX="5.25" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="FoodFiestaModel.OrderElement" Width="1.5" PointX="7.5" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="FoodFiestaModel.Seller" Width="1.5" PointX="3" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="FoodFiestaModel.Stock" Width="1.5" PointX="3" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="FoodFiestaModel.StockElement" Width="1.5" PointX="5.25" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="FoodFiestaModel.StockUpdateRecord" Width="1.5" PointX="8.25" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="FoodFiestaModel.User" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
+        <AssociationConnector Association="FoodFiestaModel.FK__Seller__Branch__09DE7BCC" ManuallyRouted="false" />
+        <AssociationConnector Association="FoodFiestaModel.FK__Stock__Branch__15502E78" ManuallyRouted="false" />
+        <AssociationConnector Association="FoodFiestaModel.FK__FoodElemen__Food__0BC6C43E" ManuallyRouted="false" />
+        <AssociationConnector Association="FoodFiestaModel.FK__OrderEleme__Food__145C0A3F" ManuallyRouted="false" />
+        <AssociationConnector Association="FoodFiestaModel.FK__FoodEleme__Ingre__0CBAE877" ManuallyRouted="false" />
+        <AssociationConnector Association="FoodFiestaModel.FK__StockUpda__Updat__1DE57479" ManuallyRouted="false" />
+        <AssociationConnector Association="FoodFiestaModel.FK__Order__Seller__0AD2A005" ManuallyRouted="false" />
+        <AssociationConnector Association="FoodFiestaModel.FK__OrderElem__Order__1367E606" ManuallyRouted="false" />
+        <AssociationConnector Association="FoodFiestaModel.FK__Seller__Email__0425A276" ManuallyRouted="false" />
+        <AssociationConnector Association="FoodFiestaModel.FK__StockUpda__Selle__1CF15040" ManuallyRouted="false" />
+        <AssociationConnector Association="FoodFiestaModel.FK__StockElem__Stock__173876EA" ManuallyRouted="false" />
+        <AssociationConnector Association="FoodFiestaModel.FK__StockUpda__Updat__1ED998B2" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

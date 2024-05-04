@@ -1,0 +1,781 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="FoodFiestaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Branch">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Location" Type="text" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Food">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" />
+          <Property Name="Price" Type="real" />
+        </EntityType>
+        <EntityType Name="FoodElement">
+          <Key>
+            <PropertyRef Name="Food" />
+            <PropertyRef Name="Ingredient" />
+          </Key>
+          <Property Name="Food" Type="int" Nullable="false" />
+          <Property Name="Ingredient" Type="int" Nullable="false" />
+          <Property Name="Quantity" Type="real" />
+        </EntityType>
+        <EntityType Name="Ingredient">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" />
+          <Property Name="Unit_type" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Seller" Type="int" />
+          <Property Name="Time" Type="datetime" />
+        </EntityType>
+        <EntityType Name="OrderElement">
+          <Key>
+            <PropertyRef Name="Food" />
+            <PropertyRef Name="Order" />
+          </Key>
+          <Property Name="Food" Type="int" Nullable="false" />
+          <Property Name="Order" Type="int" Nullable="false" />
+          <Property Name="Quantity" Type="int" />
+          <Property Name="Price" Type="real" />
+          <Property Name="Discount" Type="real" />
+        </EntityType>
+        <EntityType Name="Seller">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Time" Type="datetime" />
+          <Property Name="Email" Type="varchar" MaxLength="50" />
+          <Property Name="Branch" Type="int" />
+        </EntityType>
+        <EntityType Name="Stock">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Branch" Type="int" />
+        </EntityType>
+        <EntityType Name="StockElement">
+          <Key>
+            <PropertyRef Name="Stock" />
+            <PropertyRef Name="Ingredient" />
+          </Key>
+          <Property Name="Stock" Type="int" Nullable="false" />
+          <Property Name="Ingredient" Type="int" Nullable="false" />
+          <Property Name="Quantity" Type="real" />
+        </EntityType>
+        <EntityType Name="StockUpdateRecord">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Seller" Type="int" />
+          <Property Name="Updated_stock" Type="int" />
+          <Property Name="Updated_ingredient" Type="int" />
+          <Property Name="Quantity" Type="real" />
+          <Property Name="Time" Type="datetime" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Email" />
+          </Key>
+          <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" />
+          <Property Name="Type" Type="int" />
+          <Property Name="Registration_date" Type="datetime" />
+          <Property Name="Phone" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <Association Name="FK__FoodEleme__Ingre__0CBAE877">
+          <End Role="Ingredient" Type="Self.Ingredient" Multiplicity="1" />
+          <End Role="FoodElement" Type="Self.FoodElement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ingredient">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FoodElement">
+              <PropertyRef Name="Ingredient" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__FoodElemen__Food__0BC6C43E">
+          <End Role="Food" Type="Self.Food" Multiplicity="1" />
+          <End Role="FoodElement" Type="Self.FoodElement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Food">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FoodElement">
+              <PropertyRef Name="Food" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Order__Seller__0AD2A005">
+          <End Role="Seller" Type="Self.Seller" Multiplicity="0..1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Seller">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="Seller" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OrderElem__Order__1367E606">
+          <End Role="Order" Type="Self.Order" Multiplicity="1" />
+          <End Role="OrderElement" Type="Self.OrderElement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrderElement">
+              <PropertyRef Name="Order" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OrderEleme__Food__145C0A3F">
+          <End Role="Food" Type="Self.Food" Multiplicity="1" />
+          <End Role="OrderElement" Type="Self.OrderElement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Food">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrderElement">
+              <PropertyRef Name="Food" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Seller__Branch__09DE7BCC">
+          <End Role="Branch" Type="Self.Branch" Multiplicity="0..1" />
+          <End Role="Seller" Type="Self.Seller" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branch">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Seller">
+              <PropertyRef Name="Branch" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Seller__Email__0425A276">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Seller" Type="Self.Seller" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Email" />
+            </Principal>
+            <Dependent Role="Seller">
+              <PropertyRef Name="Email" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Stock__Branch__15502E78">
+          <End Role="Branch" Type="Self.Branch" Multiplicity="0..1" />
+          <End Role="Stock" Type="Self.Stock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branch">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Stock">
+              <PropertyRef Name="Branch" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StockElem__Stock__173876EA">
+          <End Role="Stock" Type="Self.Stock" Multiplicity="1" />
+          <End Role="StockElement" Type="Self.StockElement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stock">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StockElement">
+              <PropertyRef Name="Stock" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StockUpda__Selle__1CF15040">
+          <End Role="Seller" Type="Self.Seller" Multiplicity="0..1" />
+          <End Role="StockUpdateRecord" Type="Self.StockUpdateRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Seller">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StockUpdateRecord">
+              <PropertyRef Name="Seller" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StockUpda__Updat__1DE57479">
+          <End Role="Ingredient" Type="Self.Ingredient" Multiplicity="0..1" />
+          <End Role="StockUpdateRecord" Type="Self.StockUpdateRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ingredient">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StockUpdateRecord">
+              <PropertyRef Name="Updated_ingredient" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StockUpda__Updat__1ED998B2">
+          <End Role="Stock" Type="Self.Stock" Multiplicity="0..1" />
+          <End Role="StockUpdateRecord" Type="Self.StockUpdateRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stock">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StockUpdateRecord">
+              <PropertyRef Name="Updated_stock" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FoodFiestaModelStoreContainer">
+          <EntitySet Name="Branch" EntityType="Self.Branch" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Food" EntityType="Self.Food" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FoodElement" EntityType="Self.FoodElement" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ingredient" EntityType="Self.Ingredient" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderElement" EntityType="Self.OrderElement" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Seller" EntityType="Self.Seller" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Stock" EntityType="Self.Stock" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StockElement" EntityType="Self.StockElement" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StockUpdateRecord" EntityType="Self.StockUpdateRecord" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__FoodEleme__Ingre__0CBAE877" Association="Self.FK__FoodEleme__Ingre__0CBAE877">
+            <End Role="Ingredient" EntitySet="Ingredient" />
+            <End Role="FoodElement" EntitySet="FoodElement" />
+          </AssociationSet>
+          <AssociationSet Name="FK__FoodElemen__Food__0BC6C43E" Association="Self.FK__FoodElemen__Food__0BC6C43E">
+            <End Role="Food" EntitySet="Food" />
+            <End Role="FoodElement" EntitySet="FoodElement" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Order__Seller__0AD2A005" Association="Self.FK__Order__Seller__0AD2A005">
+            <End Role="Seller" EntitySet="Seller" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OrderElem__Order__1367E606" Association="Self.FK__OrderElem__Order__1367E606">
+            <End Role="Order" EntitySet="Order" />
+            <End Role="OrderElement" EntitySet="OrderElement" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OrderEleme__Food__145C0A3F" Association="Self.FK__OrderEleme__Food__145C0A3F">
+            <End Role="Food" EntitySet="Food" />
+            <End Role="OrderElement" EntitySet="OrderElement" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Seller__Branch__09DE7BCC" Association="Self.FK__Seller__Branch__09DE7BCC">
+            <End Role="Branch" EntitySet="Branch" />
+            <End Role="Seller" EntitySet="Seller" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Seller__Email__0425A276" Association="Self.FK__Seller__Email__0425A276">
+            <End Role="User" EntitySet="User" />
+            <End Role="Seller" EntitySet="Seller" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Stock__Branch__15502E78" Association="Self.FK__Stock__Branch__15502E78">
+            <End Role="Branch" EntitySet="Branch" />
+            <End Role="Stock" EntitySet="Stock" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StockElem__Stock__173876EA" Association="Self.FK__StockElem__Stock__173876EA">
+            <End Role="Stock" EntitySet="Stock" />
+            <End Role="StockElement" EntitySet="StockElement" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StockUpda__Selle__1CF15040" Association="Self.FK__StockUpda__Selle__1CF15040">
+            <End Role="Seller" EntitySet="Seller" />
+            <End Role="StockUpdateRecord" EntitySet="StockUpdateRecord" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StockUpda__Updat__1DE57479" Association="Self.FK__StockUpda__Updat__1DE57479">
+            <End Role="Ingredient" EntitySet="Ingredient" />
+            <End Role="StockUpdateRecord" EntitySet="StockUpdateRecord" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StockUpda__Updat__1ED998B2" Association="Self.FK__StockUpda__Updat__1ED998B2">
+            <End Role="Stock" EntitySet="Stock" />
+            <End Role="StockUpdateRecord" EntitySet="StockUpdateRecord" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FoodFiestaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Branch">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Location" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Sellers" Relationship="Self.FK__Seller__Branch__09DE7BCC" FromRole="Branch" ToRole="Seller" />
+          <NavigationProperty Name="Stocks" Relationship="Self.FK__Stock__Branch__15502E78" FromRole="Branch" ToRole="Stock" />
+        </EntityType>
+        <EntityType Name="Food">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Price" Type="Single" />
+          <NavigationProperty Name="FoodElements" Relationship="Self.FK__FoodElemen__Food__0BC6C43E" FromRole="Food" ToRole="FoodElement" />
+          <NavigationProperty Name="OrderElements" Relationship="Self.FK__OrderEleme__Food__145C0A3F" FromRole="Food" ToRole="OrderElement" />
+        </EntityType>
+        <EntityType Name="FoodElement">
+          <Key>
+            <PropertyRef Name="Food" />
+            <PropertyRef Name="Ingredient" />
+          </Key>
+          <Property Name="Food" Type="Int32" Nullable="false" />
+          <Property Name="Ingredient" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Single" />
+          <NavigationProperty Name="Food1" Relationship="Self.FK__FoodElemen__Food__0BC6C43E" FromRole="FoodElement" ToRole="Food" />
+          <NavigationProperty Name="Ingredient1" Relationship="Self.FK__FoodEleme__Ingre__0CBAE877" FromRole="FoodElement" ToRole="Ingredient" />
+        </EntityType>
+        <EntityType Name="Ingredient">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Unit_type" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="FoodElements" Relationship="Self.FK__FoodEleme__Ingre__0CBAE877" FromRole="Ingredient" ToRole="FoodElement" />
+          <NavigationProperty Name="StockUpdateRecords" Relationship="Self.FK__StockUpda__Updat__1DE57479" FromRole="Ingredient" ToRole="StockUpdateRecord" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Seller" Type="Int32" />
+          <Property Name="Time" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Seller1" Relationship="Self.FK__Order__Seller__0AD2A005" FromRole="Order" ToRole="Seller" />
+          <NavigationProperty Name="OrderElements" Relationship="Self.FK__OrderElem__Order__1367E606" FromRole="Order" ToRole="OrderElement" />
+        </EntityType>
+        <EntityType Name="OrderElement">
+          <Key>
+            <PropertyRef Name="Food" />
+            <PropertyRef Name="Order" />
+          </Key>
+          <Property Name="Food" Type="Int32" Nullable="false" />
+          <Property Name="Order" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" />
+          <Property Name="Price" Type="Single" />
+          <Property Name="Discount" Type="Single" />
+          <NavigationProperty Name="Food1" Relationship="Self.FK__OrderEleme__Food__145C0A3F" FromRole="OrderElement" ToRole="Food" />
+          <NavigationProperty Name="Order1" Relationship="Self.FK__OrderElem__Order__1367E606" FromRole="OrderElement" ToRole="Order" />
+        </EntityType>
+        <EntityType Name="Seller">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Time" Type="DateTime" Precision="3" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Branch" Type="Int32" />
+          <NavigationProperty Name="Branch1" Relationship="Self.FK__Seller__Branch__09DE7BCC" FromRole="Seller" ToRole="Branch" />
+          <NavigationProperty Name="Orders" Relationship="Self.FK__Order__Seller__0AD2A005" FromRole="Seller" ToRole="Order" />
+          <NavigationProperty Name="User" Relationship="Self.FK__Seller__Email__0425A276" FromRole="Seller" ToRole="User" />
+          <NavigationProperty Name="StockUpdateRecords" Relationship="Self.FK__StockUpda__Selle__1CF15040" FromRole="Seller" ToRole="StockUpdateRecord" />
+        </EntityType>
+        <EntityType Name="Stock">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Branch" Type="Int32" />
+          <NavigationProperty Name="Branch1" Relationship="Self.FK__Stock__Branch__15502E78" FromRole="Stock" ToRole="Branch" />
+          <NavigationProperty Name="StockElements" Relationship="Self.FK__StockElem__Stock__173876EA" FromRole="Stock" ToRole="StockElement" />
+          <NavigationProperty Name="StockUpdateRecords" Relationship="Self.FK__StockUpda__Updat__1ED998B2" FromRole="Stock" ToRole="StockUpdateRecord" />
+        </EntityType>
+        <EntityType Name="StockElement">
+          <Key>
+            <PropertyRef Name="Stock" />
+            <PropertyRef Name="Ingredient" />
+          </Key>
+          <Property Name="Stock" Type="Int32" Nullable="false" />
+          <Property Name="Ingredient" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Single" />
+          <NavigationProperty Name="Stock1" Relationship="Self.FK__StockElem__Stock__173876EA" FromRole="StockElement" ToRole="Stock" />
+        </EntityType>
+        <EntityType Name="StockUpdateRecord">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Seller" Type="Int32" />
+          <Property Name="Updated_stock" Type="Int32" />
+          <Property Name="Updated_ingredient" Type="Int32" />
+          <Property Name="Quantity" Type="Single" />
+          <Property Name="Time" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Ingredient" Relationship="Self.FK__StockUpda__Updat__1DE57479" FromRole="StockUpdateRecord" ToRole="Ingredient" />
+          <NavigationProperty Name="Seller1" Relationship="Self.FK__StockUpda__Selle__1CF15040" FromRole="StockUpdateRecord" ToRole="Seller" />
+          <NavigationProperty Name="Stock" Relationship="Self.FK__StockUpda__Updat__1ED998B2" FromRole="StockUpdateRecord" ToRole="Stock" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Email" />
+          </Key>
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Type" Type="Int32" />
+          <Property Name="Registration_date" Type="DateTime" Precision="3" />
+          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Sellers" Relationship="Self.FK__Seller__Email__0425A276" FromRole="User" ToRole="Seller" />
+        </EntityType>
+        <Association Name="FK__Seller__Branch__09DE7BCC">
+          <End Role="Branch" Type="Self.Branch" Multiplicity="0..1" />
+          <End Role="Seller" Type="Self.Seller" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branch">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Seller">
+              <PropertyRef Name="Branch" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Stock__Branch__15502E78">
+          <End Role="Branch" Type="Self.Branch" Multiplicity="0..1" />
+          <End Role="Stock" Type="Self.Stock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branch">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Stock">
+              <PropertyRef Name="Branch" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__FoodElemen__Food__0BC6C43E">
+          <End Role="Food" Type="Self.Food" Multiplicity="1" />
+          <End Role="FoodElement" Type="Self.FoodElement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Food">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FoodElement">
+              <PropertyRef Name="Food" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OrderEleme__Food__145C0A3F">
+          <End Role="Food" Type="Self.Food" Multiplicity="1" />
+          <End Role="OrderElement" Type="Self.OrderElement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Food">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrderElement">
+              <PropertyRef Name="Food" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__FoodEleme__Ingre__0CBAE877">
+          <End Role="Ingredient" Type="Self.Ingredient" Multiplicity="1" />
+          <End Role="FoodElement" Type="Self.FoodElement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ingredient">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FoodElement">
+              <PropertyRef Name="Ingredient" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StockUpda__Updat__1DE57479">
+          <End Role="Ingredient" Type="Self.Ingredient" Multiplicity="0..1" />
+          <End Role="StockUpdateRecord" Type="Self.StockUpdateRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ingredient">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StockUpdateRecord">
+              <PropertyRef Name="Updated_ingredient" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Order__Seller__0AD2A005">
+          <End Role="Seller" Type="Self.Seller" Multiplicity="0..1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Seller">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="Seller" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OrderElem__Order__1367E606">
+          <End Role="Order" Type="Self.Order" Multiplicity="1" />
+          <End Role="OrderElement" Type="Self.OrderElement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrderElement">
+              <PropertyRef Name="Order" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Seller__Email__0425A276">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Seller" Type="Self.Seller" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Email" />
+            </Principal>
+            <Dependent Role="Seller">
+              <PropertyRef Name="Email" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StockUpda__Selle__1CF15040">
+          <End Role="Seller" Type="Self.Seller" Multiplicity="0..1" />
+          <End Role="StockUpdateRecord" Type="Self.StockUpdateRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Seller">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StockUpdateRecord">
+              <PropertyRef Name="Seller" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StockElem__Stock__173876EA">
+          <End Role="Stock" Type="Self.Stock" Multiplicity="1" />
+          <End Role="StockElement" Type="Self.StockElement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stock">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StockElement">
+              <PropertyRef Name="Stock" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StockUpda__Updat__1ED998B2">
+          <End Role="Stock" Type="Self.Stock" Multiplicity="0..1" />
+          <End Role="StockUpdateRecord" Type="Self.StockUpdateRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stock">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StockUpdateRecord">
+              <PropertyRef Name="Updated_stock" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FoodFiestaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Branches" EntityType="Self.Branch" />
+          <EntitySet Name="Foods" EntityType="Self.Food" />
+          <EntitySet Name="FoodElements" EntityType="Self.FoodElement" />
+          <EntitySet Name="Ingredients" EntityType="Self.Ingredient" />
+          <EntitySet Name="Orders" EntityType="Self.Order" />
+          <EntitySet Name="OrderElements" EntityType="Self.OrderElement" />
+          <EntitySet Name="Sellers" EntityType="Self.Seller" />
+          <EntitySet Name="Stocks" EntityType="Self.Stock" />
+          <EntitySet Name="StockElements" EntityType="Self.StockElement" />
+          <EntitySet Name="StockUpdateRecords" EntityType="Self.StockUpdateRecord" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="FK__Seller__Branch__09DE7BCC" Association="Self.FK__Seller__Branch__09DE7BCC">
+            <End Role="Branch" EntitySet="Branches" />
+            <End Role="Seller" EntitySet="Sellers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Stock__Branch__15502E78" Association="Self.FK__Stock__Branch__15502E78">
+            <End Role="Branch" EntitySet="Branches" />
+            <End Role="Stock" EntitySet="Stocks" />
+          </AssociationSet>
+          <AssociationSet Name="FK__FoodElemen__Food__0BC6C43E" Association="Self.FK__FoodElemen__Food__0BC6C43E">
+            <End Role="Food" EntitySet="Foods" />
+            <End Role="FoodElement" EntitySet="FoodElements" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OrderEleme__Food__145C0A3F" Association="Self.FK__OrderEleme__Food__145C0A3F">
+            <End Role="Food" EntitySet="Foods" />
+            <End Role="OrderElement" EntitySet="OrderElements" />
+          </AssociationSet>
+          <AssociationSet Name="FK__FoodEleme__Ingre__0CBAE877" Association="Self.FK__FoodEleme__Ingre__0CBAE877">
+            <End Role="Ingredient" EntitySet="Ingredients" />
+            <End Role="FoodElement" EntitySet="FoodElements" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StockUpda__Updat__1DE57479" Association="Self.FK__StockUpda__Updat__1DE57479">
+            <End Role="Ingredient" EntitySet="Ingredients" />
+            <End Role="StockUpdateRecord" EntitySet="StockUpdateRecords" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Order__Seller__0AD2A005" Association="Self.FK__Order__Seller__0AD2A005">
+            <End Role="Seller" EntitySet="Sellers" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OrderElem__Order__1367E606" Association="Self.FK__OrderElem__Order__1367E606">
+            <End Role="Order" EntitySet="Orders" />
+            <End Role="OrderElement" EntitySet="OrderElements" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Seller__Email__0425A276" Association="Self.FK__Seller__Email__0425A276">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Seller" EntitySet="Sellers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StockUpda__Selle__1CF15040" Association="Self.FK__StockUpda__Selle__1CF15040">
+            <End Role="Seller" EntitySet="Sellers" />
+            <End Role="StockUpdateRecord" EntitySet="StockUpdateRecords" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StockElem__Stock__173876EA" Association="Self.FK__StockElem__Stock__173876EA">
+            <End Role="Stock" EntitySet="Stocks" />
+            <End Role="StockElement" EntitySet="StockElements" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StockUpda__Updat__1ED998B2" Association="Self.FK__StockUpda__Updat__1ED998B2">
+            <End Role="Stock" EntitySet="Stocks" />
+            <End Role="StockUpdateRecord" EntitySet="StockUpdateRecords" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="FoodFiestaModelStoreContainer" CdmEntityContainer="FoodFiestaEntities">
+          <EntitySetMapping Name="Branches">
+            <EntityTypeMapping TypeName="FoodFiestaModel.Branch">
+              <MappingFragment StoreEntitySet="Branch">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Foods">
+            <EntityTypeMapping TypeName="FoodFiestaModel.Food">
+              <MappingFragment StoreEntitySet="Food">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FoodElements">
+            <EntityTypeMapping TypeName="FoodFiestaModel.FoodElement">
+              <MappingFragment StoreEntitySet="FoodElement">
+                <ScalarProperty Name="Food" ColumnName="Food" />
+                <ScalarProperty Name="Ingredient" ColumnName="Ingredient" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ingredients">
+            <EntityTypeMapping TypeName="FoodFiestaModel.Ingredient">
+              <MappingFragment StoreEntitySet="Ingredient">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Unit_type" ColumnName="Unit_type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="FoodFiestaModel.Order">
+              <MappingFragment StoreEntitySet="Order">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Seller" ColumnName="Seller" />
+                <ScalarProperty Name="Time" ColumnName="Time" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderElements">
+            <EntityTypeMapping TypeName="FoodFiestaModel.OrderElement">
+              <MappingFragment StoreEntitySet="OrderElement">
+                <ScalarProperty Name="Food" ColumnName="Food" />
+                <ScalarProperty Name="Order" ColumnName="Order" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sellers">
+            <EntityTypeMapping TypeName="FoodFiestaModel.Seller">
+              <MappingFragment StoreEntitySet="Seller">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Time" ColumnName="Time" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Branch" ColumnName="Branch" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Stocks">
+            <EntityTypeMapping TypeName="FoodFiestaModel.Stock">
+              <MappingFragment StoreEntitySet="Stock">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Branch" ColumnName="Branch" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StockElements">
+            <EntityTypeMapping TypeName="FoodFiestaModel.StockElement">
+              <MappingFragment StoreEntitySet="StockElement">
+                <ScalarProperty Name="Stock" ColumnName="Stock" />
+                <ScalarProperty Name="Ingredient" ColumnName="Ingredient" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StockUpdateRecords">
+            <EntityTypeMapping TypeName="FoodFiestaModel.StockUpdateRecord">
+              <MappingFragment StoreEntitySet="StockUpdateRecord">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Seller" ColumnName="Seller" />
+                <ScalarProperty Name="Updated_stock" ColumnName="Updated_stock" />
+                <ScalarProperty Name="Updated_ingredient" ColumnName="Updated_ingredient" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Time" ColumnName="Time" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="FoodFiestaModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Registration_date" ColumnName="Registration_date" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

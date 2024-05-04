@@ -1,0 +1,89 @@
+﻿@model FoodFiesta.Models.User
+
+@{
+    ViewBag.Title = "AddSeller";
+}
+<div class="row mx-5 text-center">
+    <p></p>
+    <p></p>
+    <h2>Add New Seller</h2>
+    <p></p>
+    <p></p>
+</div>
+
+<div class="row mx-5">
+    <div class="col-4"></div>
+    <div class="col-6">
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group py-3">
+                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group py-3">
+                    @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group py-3">
+                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group py-3">
+                    @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group py-3">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Create" class="btn btn-info" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="col-2"></div>
+</div>
+
+<div class="row mx-5 text-center">
+    <p></p>
+    <p></p>
+    @Html.ActionLink("Back to home", "Index")
+    <p></p>
+    <p></p>
+</div>
+
+
+@Scripts.Render("~/bundles/jquery")
+<script>
+
+    //show dropdown values in text box
+    $(function () {
+        $("#assignedBranch").change(function () {
+            var selectedBranch = $("#assignedBranch option:selected").text();
+            $("#inputAssignedBranch").val(selectedBranch);
+        })
+    })
+
+</script>

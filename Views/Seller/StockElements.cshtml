@@ -1,0 +1,51 @@
+﻿@model IEnumerable<FoodFiesta.Models.StockElement>
+
+@{
+    ViewBag.Title = "StockElements";
+
+    var db = new FoodFiesta.Models.FoodFiestaEntities();
+}
+
+
+<div class="row mx-5 text-center">
+
+    <table class="table table-striped table-hover">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Ingredient)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @{
+                        FoodFiesta.Models.Ingredient currItem = db.Ingredients.Find(item.Ingredient);
+                    }
+                    @Html.DisplayFor(modelItem => currItem.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    @Html.ActionLink("Update", "UpdateStock", new { ing=item.Ingredient, stk=item.Stock })
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+
+<div class="row mx-5 text-center">
+    <p></p>
+    <p></p>
+    @Html.ActionLink("Back to home", "Index")
+    <p></p>
+    <p></p>
+</div>
+

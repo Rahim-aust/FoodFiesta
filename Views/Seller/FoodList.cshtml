@@ -1,0 +1,52 @@
+﻿@model IEnumerable<FoodFiesta.Models.Food>
+
+@{
+    ViewBag.Title = "FoodList";
+}
+
+<div class="row mx-5 text-center">
+    <p></p>
+    <p></p>
+    <h2>Food List</h2>
+    <p></p>
+    <p></p>
+
+    <table class="table table-striped table-hover">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+
+<div class="row mx-5 text-center">
+    <p></p>
+    <p></p>
+    @Html.ActionLink("Back to home", "Index")
+    <p></p>
+    <p></p>
+</div>
+

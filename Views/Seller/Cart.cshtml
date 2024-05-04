@@ -1,0 +1,61 @@
+﻿@model IEnumerable<FoodFiesta.Models.Food>
+
+@{
+    ViewBag.Title = "Cart";
+    var cart = (FoodFiesta.Models.Cart)Session["cart"];
+    float totalPrice = 0;
+}
+
+<div class="row mx-5 text-center">
+    <p></p>
+    <p></p>
+    <h2>Cart</h2>
+    <p></p>
+    <p></p>
+
+
+    <table class="table table-striped table-hover">
+        <tr>
+            <th>
+                Food
+            </th>
+            <th>
+                Quantity
+            </th>
+            <th>
+                Price
+            </th>
+        </tr>
+
+        @foreach (FoodFiesta.Models.CartItem item in cart.cartItems)
+        {
+            totalPrice += item.Quantity * (item.Food.Price ?? 0);
+            <tr>
+                <td>@item.Food.Name</td>
+                <td>@item.Quantity</td>
+                <td>@item.Food.Price</td>
+            </tr>
+        }
+
+    </table>
+</div>
+
+<div class="container">
+    <div class="row">
+        Customer have to pay Tk.<b>@totalPrice </b>
+    </div>
+    <br />
+
+    <div class="row">
+        @Html.ActionLink("Confirm", "ConfirmOrder",new {},new { @class = "btn btn-info" })
+    </div>
+    <br />
+</div>
+
+<div class="row mx-5 text-center">
+    <p></p>
+    <p></p>
+    @Html.ActionLink("Back to home", "Index")
+    <p></p>
+    <p></p>
+</div>

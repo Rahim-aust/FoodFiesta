@@ -1,0 +1,48 @@
+﻿@model FoodFiesta.Models.User
+
+@{
+    ViewBag.Title = "SellerSignup";
+}
+
+<form action="/Home/AuthorizeSignup" method="post">
+    <div class="row mx-5">
+        <div class="col-xs-1 col-sm-1 col-md-3 col-lg-2"></div>
+        <div class="col-xs-10 col-sm-10 col-md-6 col-lg-8 my-5">
+
+            <h3>Seller Registration</h3>
+
+
+            <div class="py-3">
+                <label for="inputFullnameForSignup" class="form-label">Full name</label>
+                <input type="text" class="form-control" name="inputFullnameForSignup" required minlength="0">
+            </div>
+
+            <div class="py-3">
+                <label for="inputPhoneForSignup" class="form-label">Phone</label>
+                <input type="tel" class="form-control" name="inputPhoneForSignup" placeholder="01XXXXXXXXX" pattern="[0]{1}[1]{1}[0-9]{9}" required maxlength="11">
+            </div>
+
+            <div class="py-3">
+                <label for="inputEmailForSignup" class="form-label">Email</label>
+                <input type="email" class="form-control" name="inputEmailForSignup" required minlength="0">
+            </div>
+
+            <div class="py-3">
+                <label for="inputPasswordForSignup" class="form-label">Password</label>
+                <input type="password" class="form-control" name="inputPasswordForSignup" required minlength="0">
+            </div>
+
+            <div class="py-3">
+                <button type="submit" class="btn btn-primary" name="buttonForSignup">Sign Up</button>
+            </div>
+
+            <div class="py-3">
+                <i>Already have a seller account?  </i>
+                <a href="/Home/Index"><b class="text-primary"> Sign In</b></a>
+            </div>
+            <div class="col-xs-1 col-sm-1 col-md-3 col-lg-2"></div>
+        </div>
+        <p></p>
+        <p></p>
+    </div>
+</form>

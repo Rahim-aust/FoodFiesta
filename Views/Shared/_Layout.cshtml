@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - FoodFiesta</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/fontawesome")
+</head>
+
+<body style="background-image: url('/Images/bg.jpg');">
+
+    <nav class="navbar navbar-brand">
+        <a class="navbar-brand position-absolute top-100 mb-5 start-50 translate-middle" href="/Home/"><h1><b style="color:darkgreen">FoodFiesta</b></h1></a>
+    </nav>
+
+    <nav class="navbar navbar-brand m-5">
+        <div class="navbar-brand position-absolute top-100 mb-5 start-50 translate-middle">
+            @if (Session["userEmail"] != null)
+            {
+                <br />
+                <p>
+                    <b style="color:blueviolet">@Session["userType"].ToString(): (@Session["userBranchName"])</b>
+                    <b style="color:brown">@Session["userEmail"].ToString()</b>
+                    <a class="btn btn-warning m-1" href="/Home/KillSession">Logout</a>
+                </p>
+            }
+            else
+            {
+                //<a class="btn btn-light m-1" href="/Home/Signup">Sign Up</a>
+                //<a class="btn btn-light m-1" href="/Home/Login">Log In</a>
+            }
+        </div>
+    </nav>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light py-4">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarColor01">
+                <ul class="navbar-nav me-auto mb-2 position-absolute top-50 start-50 translate-middle">
+
+                    <li class="nav-item">
+
+                        @if ((string)Session["userType"] == "Admin") {
+                            <a class="nav-link" href="/Admin/Index"><b>Home</b></a>
+                        } else if ((string)Session["userType"] == "Seller") {
+                            <a class="nav-link" href="/Seller/Index"><b>Home</b></a>
+                        } else {
+                            if (ViewBag.Title == "Home") {
+                                <a class="nav-link active" href="/Home/">
+                                    <b>Home</b>
+                                    <span class="visually-hidden">(current)</span>
+                                </a>
+                            } else {
+                                <a class="nav-link" href="/Home/">Home</a>
+                            }
+                        }
+                    </li>
+                    &nbsp;
+
+                    <li class="nav-item">
+                        @if (ViewBag.Title == "About") {
+                            <a class="nav-link active" href="/Home/About">
+                                <b>About</b>
+                                <span class="visually-hidden">(current)</span>
+                            </a>
+                        } else {
+                            <a class="nav-link" href="/Home/About">About</a>
+                        }
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div style="background-color:snow;">
+        @RenderBody()
+    </div>
+
+    <div id="footer">
+        <footer>
+            <div class="d-flex justify-content-center px-5 my-3 border-top">
+                <p>Developed by <b>A1G4</b> | &copy; All rights reserved @DateTime.Now.Year</p>
+
+                <ul class="list-unstyled d-flex">
+                    <li class="ms-3"><a class="link-dark" href="#"><i class="fa-solid fa-envelope"></i></a></li>
+                    <li class="ms-3"><a class="link-dark" href="#"><i class="fa-brands fa-twitter-square"></i></a></li>
+                    <li class="ms-3"><a class="link-dark" href="#"><i class="fa-brands fa-instagram-square"></i></a></li>
+                    <li class="ms-3"><a class="link-dark" href="#"><i class="fa-brands fa-facebook-square"></i></a></li>
+                </ul>
+            </div>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap.js")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

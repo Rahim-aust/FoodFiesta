@@ -1,0 +1,45 @@
+﻿@{
+    ViewBag.Title = "Home";
+}
+
+<form action="/Home/AuthorizeLogin" method="post">
+    <div class="row mx-5">
+        <p></p>
+        <p></p>
+        <p></p>
+        <p></p>
+
+        <div class="col-2"></div>
+
+        <div class="col-4">
+            <img style="border: double" src="~/Images/p1.jpg" />
+            &nbsp; &nbsp;
+            <img style="border: double" src="~/Images/p2.jpg" />
+            <br />
+            <br />
+            <img style="border:double" src="~/Images/p3.jpg" />
+        </div>
+
+
+
+        <div class="col-4">
+            <label for="userInputEmail1" class="form-label mt-4">Enter Email</label>
+            <input type="email" class="form-control" id="userInputEmail1" name="userInputEmail1" placeholder="Enter email">
+            <br />
+            <label for="userInputPassword" class="form-label mt-4">Enter Password</label>
+            <input type="password" class="form-control" id="userInputPassword" name="userInputPassword" placeholder="Password">
+            <br />
+            <button type="submit" class="btn btn-primary">Sign In</button>
+            <p></p>
+            <p></p>
+            <p></p>
+            <i>New seller?  </i>
+            <a href="/Home/Signup"><b class="text-primary"> Register</b></a>
+        </div>
+
+        <p></p>
+        <p></p>
+        <p></p>
+        <p></p>
+    </div>
+</form>
